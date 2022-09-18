@@ -1,8 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/* run this program using the console pauser or add your own getch, system("pause") or input loop */
+//Struct do produto
+typedef struct(
+	int codigo;
+	char descricao[100];
+	int qtd_estoque;
+	double preco;
+)Produto;
 
+
+
+//Menu Principal do Sistema
 int menu_principal_opcoes(){
 	int opcao;
 	system("cls");		
@@ -14,30 +23,35 @@ int menu_principal_opcoes(){
 	return opcao;
 }
 
+//Menu de Gerenciamento de Produtos
 int menu_gerenciar_produto_opcoes(){
 	int opcao;
 	system("cls");	
-	printf("\n######################");
-	printf("\nGerenciar Produto");
-	printf("\n######################\n");
+	printf("\n------------------------");
+	printf("\n   Gerenciar Produto");
+	printf("\n------------------------");
 	printf("\n(1) Incluir");
 	printf("\n(2) Alterar");
 	printf("\n(3) Listar");
 	printf("\n(4) Consultar");
 	printf("\n(5) Excluir");
-	printf("\n(6) Voltar");
+	printf("\n(6) Salvar Estoque em txt)");
+	printf("\n(7) Imprimir Relatório de Estoque)");
+	printf("\n(8) Recuperar Estoque em txt)");
+	printf("\n(8) Voltar");
 	printf("\n\nDigite uma opcao: ");
 	scanf("%d",&opcao);	
 	return opcao;
 
 }
 
+//Menu de Gerenciamento de Pedidos
 int menu_gerenciar_pedido_opcoes(){
 	int opcao;
 	system("cls");	
-	printf("\n######################");
-	printf("\nGerenciar Pedido");
-	printf("\n######################\n");	
+	printf("\n------------------------");
+	printf("\n   Gerenciar Pedido");
+	printf("\n------------------------");	
 	printf("\n(1) Adicionar produto no carrinho");
 	printf("\n(2) Consultar carrinho de compras");
 	printf("\n(3) Excluir produto do carrinho");
@@ -50,6 +64,7 @@ int menu_gerenciar_pedido_opcoes(){
 	return opcao;
 }
 
+//Switch de opções de produtos
 void gerenciar_menu_produto(){
 	int opcao;
 	int sair = 0;
@@ -89,6 +104,7 @@ void gerenciar_menu_produto(){
 	
 }
 
+//Switch de opções de pedidos
 void gerenciar_menu_pedido(){
 	int opcao;
 	int sair = 0;
@@ -132,6 +148,7 @@ void gerenciar_menu_pedido(){
 	
 }
 
+//Switch de gerenciamento do menu principal
 void gerenciar_menu_principal(){
 	int opcao;
 	int sair = 0;
