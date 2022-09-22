@@ -1,0 +1,12 @@
+# depslib dependency file v1.0
+1663630030 source:d:\_ambiente de desenvolvimento\projetos\projetos em c\estrutura de dados\trabalhoestruturasdadosa1\main.c
+	<stdio.h>
+	<stdlib.h>
+	"produto.h"
+	"menu.h"
+
+1663606716 d:\_ambiente de desenvolvimento\projetos\projetos em c\estrutura de dados\trabalhoestruturasdadosa1\produto.h
+	<math.h>
+
+1663607611 d:\_ambiente de desenvolvimento\projetos\projetos em c\estrutura de dados\trabalhoestruturasdadosa1\menu.h
+
