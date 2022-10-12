@@ -1,6 +1,9 @@
+#include <stdio.h>
+#include <stdlib.h>
 #include "produto.h"
+#include "menu.h"
+#include <math.h>
 
-#define FATOR_REALLOC 4
 
 //Menu Principal do Sistema
 int menu_principal_opcoes(){
@@ -26,14 +29,13 @@ int menu_gerenciar_produto_opcoes(){
 	printf("\n(3) Listar");
 	printf("\n(4) Consultar");
 	printf("\n(5) Excluir");
-	printf("\n(6) Salvar Estoque em txt)");
-	printf("\n(7) Imprimir Relatório de Estoque)");
-	printf("\n(8) Recuperar Estoque em txt)");
+	printf("\n(6) Salvar Estoque em txt");
+	printf("\n(7) Imprimir Relatório de Estoque");
+	printf("\n(8) Recuperar Estoque em txt");
 	printf("\n(8) Voltar");
 	printf("\n\nDigite uma opcao: ");
 	scanf("%d",&opcao);	
 	return opcao;
-
 }
 
 //Menu de Gerenciamento de Pedidos
@@ -58,20 +60,25 @@ int menu_gerenciar_pedido_opcoes(){
 //Switch de opções de produtos
 void gerenciar_menu_produto(){
 	int opcao;
+	PProduto produtos; 
+   	int qtd_produtos;
 	int sair = 0;
 	do{	
 		opcao = menu_gerenciar_produto_opcoes();		
 		switch(opcao){
 			case 1:
-				printf("Criar Produto");
-				getch();
+				produtos = incluir_produto(&qtd_produtos);	//ATENÇÃO nesta versão a função incluir passou a retornar o ponteiro para o início 
+															//	do vetor, pois a alocação dinâmica do vetor foi feita 
+															//dentro da função e o escopo global não iria visualizar este endereço, 
+															//ocasionando erro de execução.
+				//getch();
 				break;
 			case 2:
 				printf("Alterar Produto");
 				getch();
 				break;								
 			case 3:
-				printf("Listar produtos");
+				 imprimir_produtos(qtd_produtos,produtos);
 				sair = 1;
 				break;
 			case 4:

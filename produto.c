@@ -1,79 +1,55 @@
-//Struct do produto
-struct produto{
-	int codigo;
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "produto.h"
+
+ typedef struct produto {
+    int codigo, qtd_estoque;
 	char descricao[100];
-	int qtd_estoque;
-	float valor;
-};
+    float valor;   
+ }Produto,* PProduto;
+/* Com o uso do typedef uma variável do tipo "struct produto" pode ser declarada
+ apenas como "Produto" e um ponteiro para esta estrutura como "PProduto"*/
 
-//Verifica se array de produtos está vazio ou não
-int vazio_vet(int*vet){
-	return vet == NULL;
+PProduto incluir_produto(int* num_produtos){
+    int i;
+    PProduto pp;
+    //num_produtos é uma variável que será lida para guardar o número de alunos inseridos 
+    printf("Informe o numero de alunos a serem inseridos: ");
+    scanf("%d",num_produtos);
+    pp = (PProduto) malloc((*num_produtos)*sizeof(Produto));
+    if (pp == NULL){
+       printf("FALTOU MEMORIA");
+       exit(1);     
+    }
+        
+    for(i=0;i<(*num_produtos);i++){     
+      printf("Informe o codigo do produto: "); 
+      scanf("%d",&pp[i].codigo);  
+	  printf("Informe a descricao do produto: "); 
+      scanf(" %[^\n]",pp[i].descricao);
+      printf("Informe a quantidade em estoque do produto: "); 
+      scanf("%d",&pp[i].qtd_estoque);  
+      printf("Informe o valor do produto: ");   
+      scanf("%f",&pp[i].valor);
+    }
+
+    /* Nesta versão podemos usar o "." para acessar as variáveis do struct, pois
+       o vetor  contém estruturas estáticas e o uso dos colchetes [i] permite
+       acessar diretamente o conteúdo da célula de um vetor */
+
+   /*O & foi usado, pois a função "scanf" necessita saber o endereço da variável.
+   No caso do nome não foi necessário, pois em C um String é tratado como um vetor
+   de caracteres e o nome dado a um vetor sempre representa o endereço
+   da sua primeira posição.*/
+      
+   return pp;  
 }
 
-Produto* incluir_produto(Produto *p, int *qtd, int *max){
-	
-	if(vazio_vet(p)){ //ou poderia ser if(qtd==0) ou if(!qtd)
-		printf("\nO vetor estava vazio - primeira alocacao!");
-		Produto p = (Produto*) malloc(FATOR_REALLOC *sizeof(Produto));
-		if(!p){ //não conseguiu espaço em memória
-			return NULL;
-		}
-		*max = 2;
-		*qtd = 0;
-	}
-	
-	if(*qtd == *max){ //meu vetor está cheio
-		printf("\nO vetor precisa de realocacao!");
-		p = (Produto*) realloc(p, (*max*FATOR_REALLOC)*sizeof(Produto));
-		if(!p){ //não conseguiu espaço em memória
-			return NULL;
-		}
-		*max = *max + 2;
-	}
-	
-	p[*qtd];
-	
-	for(int i=0; i<qtd; i++) {
-    	printf("Digite a descricao do produto: ");
-		fgets(p[i].descricao, 100, stdin);
-		printf("Digite o codigo do produto: ");
-		scanf("%d", &p[i].codigo);
-		scanf("%c");
-		printf("Digite a quantidade do produto: ");
-		scanf("%d", &p[i].qtd_estoque);
-		printf("Digite o preco ao consumidor: ");
-		scanf("%f", &p[i].valor);
-	}
-	
-	for(int i=0; i<qtd; i++) {
-    	printf("\nDescricao: %s", p[i].descricao);
-		printf("\nCodigo: %d", p[i].codigo);
-		printf("\nEstoque: %d", p[i].qtd_estoque);
-		printf("\nPreco: %.2f", p[i].valor);
-	}
-		
-	*qtd = *qtd + 1;
-	getch();
-	return p;		
+void imprimir_produtos(int num_produtos, PProduto pp){
+  int i;                       
+  for(i=0;i<num_produtos;i++){     
+    printf("Descricao: %s Codigo: %d Quantida em Estoque: %d  Valor em R$: %.2f\n",pp[i].descricao,pp[i].codigo,pp[i].qtd_estoque,pp[i].valor);
+  }                                         
 }
 
-
-//altera um produto do estoque. A lógica envolvida primeira encontramos o produto, depois alteramos seus dados
-Produto buscar_produto(Produto* p, int qtd, int elem){
-	
-	int i;
-	
-	for(i=0;i<qtd;i++){
-		if(vet[i]==elem){
-			return i;
-		}
-	}
-	return -1;
-}
-
-Produto* alterar_produto(){
-	
-	
-	
-}

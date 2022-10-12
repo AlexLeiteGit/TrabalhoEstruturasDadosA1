@@ -1,4 +1,5 @@
-
+#include <stdio.h>
+#include <stdlib.h>
 
 //Menu de Gerenciamento de Produtos
 int menu_gerenciar_produto_opcoes();

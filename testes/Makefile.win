@@ -1,17 +1,17 @@
-# Project: LojaVirtual
+# Project: Teste_Vetor_Produtos
 # Makefile created by Dev-C++ 5.11
 
-CPP      = g++.exe -D__DEBUG__
-CC       = gcc.exe -D__DEBUG__
+CPP      = g++.exe
+CC       = gcc.exe
 WINDRES  = windres.exe
-OBJ      = main.o produto.o menu.o
-LINKOBJ  = main.o produto.o menu.o
-LIBS     = -L"D:/_Ambiente de Desenvolvimento/Dev-Cpp/MinGW64/lib" -L"D:/_Ambiente de Desenvolvimento/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc -lwsock32 -g3
+OBJ      = main.o
+LINKOBJ  = main.o
+LIBS     = -L"D:/_Ambiente de Desenvolvimento/Dev-Cpp/MinGW64/lib" -L"D:/_Ambiente de Desenvolvimento/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc -lwsock32
 INCS     = -I"D:/_Ambiente de Desenvolvimento/Dev-Cpp/MinGW64/include" -I"D:/_Ambiente de Desenvolvimento/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"D:/_Ambiente de Desenvolvimento/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"
 CXXINCS  = -I"D:/_Ambiente de Desenvolvimento/Dev-Cpp/MinGW64/include" -I"D:/_Ambiente de Desenvolvimento/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"D:/_Ambiente de Desenvolvimento/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"D:/_Ambiente de Desenvolvimento/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"
-BIN      = LojaVirtual.exe
-CXXFLAGS = $(CXXINCS) -g3
-CFLAGS   = $(INCS) -g3
+BIN      = Teste_Vetor_Produtos.exe
+CXXFLAGS = $(CXXINCS) 
+CFLAGS   = $(INCS) 
 RM       = rm.exe -f
 
 .PHONY: all all-before all-after clean clean-custom
@@ -26,9 +26,3 @@ $(BIN): $(OBJ)
 
 main.o: main.c
 	$(CC) -c main.c -o main.o $(CFLAGS)
-
-produto.o: produto.c
-	$(CC) -c produto.c -o produto.o $(CFLAGS)
-
-menu.o: menu.c
-	$(CC) -c menu.c -o menu.o $(CFLAGS)
