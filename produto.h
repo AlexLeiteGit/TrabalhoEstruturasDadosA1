@@ -2,7 +2,9 @@
 # define PRODUTO_H
 int				qtdProd;
 int				maxProd;
+
 typedef struct	produto Produto;
+typedef struct	produto_l ProdutoLista;
 
 Produto*	incluir_produto(Produto* produto);
 void		alterar_produto(Produto* produto);

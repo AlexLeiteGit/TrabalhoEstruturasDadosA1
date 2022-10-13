@@ -1,71 +1,222 @@
-#include "common.h"
 #include "pedido.h"
 
-int	qtdPed = 0;
-int	maxPed = 0;
+typedef struct produto{
+	char codigo[10];
+	char descricao[50];
+	int qtd_estoque;
+	float preco;
+}Produto;
+
+typedef struct produto_l{
+	Produto* produto;
+}ProdutoLista;
+
+int qtdPed = 0;
+int maxPed = 0;
+
+char codigo[10];
+//bool finalizado = false;
+float totalGeral = 0;
 
 struct pedido{
-	int codigo;
-	int produto;
+	Produto* produto;
 	int quantidade;
 	float preco;
-	int total;
+	float total;
 };
 
-void adicionar_produto_carrinho(Produto* produto, Pedido* pedido){
+struct pedido_l{
+	Pedido* pedido;
+};
+
+PedidoLista* excluir_pedido(PedidoLista* pedido_l){
+	int ped = 0;
+	for(ped = 0; ped < qtdPed; ped++){
+		free(pedido_l[ped].pedido);
+	}
+	qtdPed = 0;
+	totalGeral = 0;
+	//finalizado = false;
+	maxPed = REALLOCFACT;
+	strcpy(codigo,"");
+	pedido_l = (PedidoLista*) realloc(pedido_l, REALLOCFACT * sizeof(PedidoLista));
+}
+
+Pedido* incluir_pedido(){
+	return (Pedido*) malloc(sizeof(Pedido));
+}
+
+int buscar_produto_codigo_pedido(PedidoLista* pedido_l, char codigo[10]){
+	int i = 0;
+	int retorno = ITEM_NAO_ENCONTRADO;
+	for(i = 0; i < qtdProd; i++){
+		if(!strcmp(pedido_l[i].pedido->produto->codigo, codigo)){
+			return i;
+		}
+	}
+	return retorno;
+}
+
+PedidoLista* adicionar_produto_carrinho(ProdutoLista* produto_l, PedidoLista* pedido_l){
+	//LISTAR PRODUTOS DISPONIVEIS
 	printf("Produtos Disponiveis\n\n");
-	listar_produtos(produto, qtdProd, false);
-	
-	int codProd;
+	listar_produtos(produto_l, qtdProd, false);
+	//SELECIONAR O PRODUTO
+	char codProd[10];
 	printf("Digite o codigo do produto desejado! ");
-	scanf("%d", &codProd);
-	
-	int prodResult = buscar_produto_codigo(produto, codProd, false);
+	scanf("%s", codProd);
+	//VERIFICAR EXISTENCIA
+	int prodResult = buscar_produto_codigo(produto_l, codProd, false);
 	if(prodResult > ITEM_NAO_ENCONTRADO){
-		consultar_produto(produto, prodResult);
+		consultar_produto(produto_l, prodResult);
 	}else{
 		printf("\n\nPRODUTO NAO ENCONTRADO\n\n");
-		adicionar_produto_carrinho(produto, pedido);		
-	}		
-	
-	if(qtdPed == maxPed){
-		pedido = (Pedido*) realloc(pedido, (maxPed + 10) * sizeof(Pedido));
-		maxPed = maxPed + 10;
+		adicionar_produto_carrinho(produto_l, pedido_l);
 	}
+
+	//MALLOC LISTAPEDIDO
+	if(maxPed == 0){
+		maxPed = REALLOCFACT;
+		pedido_l = (PedidoLista*) malloc(maxPed * sizeof(PedidoLista));
+		if (pedido_l == NULL){
+			printf("\n\nMemoria insuficiente\n\n");
+			exit(0);
+	    }
+	}
+	//REALLOC LISTAPEDIDO
+	if(qtdPed == maxPed){
+		pedido_l = (PedidoLista*) realloc(pedido_l, (maxPed + REALLOCFACT) * sizeof(PedidoLista));
+		if (pedido_l == NULL){
+			printf("\n\nMemoria insuficiente\n\n");
+			exit(0);
+	    }
+	    maxPed = maxPed + REALLOCFACT;
+	}
+	//MALLOC PEDIDO
+	pedido_l[qtdPed].pedido = incluir_pedido();
+
+	//INCLUIR PEDIDO
+	pedido_l[qtdPed].pedido->produto = produto_l[prodResult].produto;
+	pedido_l[qtdPed].pedido->preco = produto_l[prodResult].produto->preco;
 	
-	pedido[qtdPed].codigo = qtdPed + 1;
-	pedido[qtdPed].produto = prodResult;
-	pedido[qtdPed].preco = 10;
+	//VERIFICAR QUANTIDADE DISPONIVEL
+	do{
+		printf("\nDigite a quantidade de produto desejada! ");
+		scanf("%d", &pedido_l[qtdPed].pedido->quantidade);
+	}while(!consulta_disponibilidade(produto_l, prodResult, pedido_l[qtdPed].pedido->quantidade));
 	
-	printf("Digite a quantidade de produto desejada! ");
-	scanf("%d", pedido[qtdPed].quantidade);
-	pedido[qtdPed].total = pedido[qtdPed].quantidade * pedido[qtdPed].preco;
+	pedido_l[qtdPed].pedido->total = pedido_l[qtdPed].pedido->quantidade * pedido_l[qtdPed].pedido->preco;
+	totalGeral += pedido_l[qtdPed].pedido->total;
+	qtdPed++;
+	printf("\nProduto adicionado com sucesso!\n\n");
+	return pedido_l;
+}
+
+void consultar_carrinho_compras(PedidoLista* pedido_l, int qtd){
+	int i = 0;
+	if(qtd == 0){
+		printf("\n\nPedido se encontra vazio!\n\n");
+		return;
+	}
+	printf("\n\n# Pedido : -- %s", codigo);
+	if(!finalizado)
+		printf("\nStatus : ABERTO");
+	else
+		printf("\nStatus : FINALIZADO");
+	printf("\n\nItens :\n");
+	for (i = 0; i < qtd; i++){
+		printf("\Codigo: %s -- Descricao: %s -- Quantidade: %d -- Preco Unitario: %.2f -- Total: %.2f\n", 
+			pedido_l[i].pedido->produto->codigo,
+			pedido_l[i].pedido->produto->descricao,
+			pedido_l[i].pedido->quantidade,
+			pedido_l[i].pedido->produto->preco,
+			pedido_l[i].pedido->total
+		);
+	}
+	printf("\nA pagar : -- %.2f\n", totalGeral);
+	printf("\n");	
+}
+
+void excluir_produto_carrinho(PedidoLista* pedido_l){
+	consultar_carrinho_compras(pedido_l, qtdPed);
+	char codProd[10];
+	int index = 0;
+	printf("Por favor, digite o codigo do produto a ser exluido. ");
+	scanf("%s", codProd);
+	index = buscar_produto_codigo_pedido(pedido_l, codProd);
+	if(index == ITEM_NAO_ENCONTRADO){
+		printf("\nItem nao encontrado!!!\n\n");
+		return;
+	}
+	//EXCLUSAO
+	if(qtdPed == 1 || index == qtdPed - 1){
+		//LIMPA O VET DE PEDIDO
+		totalGeral -= pedido_l[index].pedido->total;
+		free(pedido_l[index].pedido);
+		qtdPed--;
+	}
+	else{
+		totalGeral -= pedido_l[index].pedido->total;
+		pedido_l[index].pedido->produto = pedido_l[qtdPed - 1].pedido->produto;
+		pedido_l[index].pedido->preco = pedido_l[qtdPed - 1].pedido->preco;
+		pedido_l[index].pedido->quantidade = pedido_l[qtdPed - 1].pedido->quantidade;
+		pedido_l[index].pedido->total = pedido_l[qtdPed - 1].pedido->total;
+		//LIMPA O VET DE PEDIDO
+		free(pedido_l[qtdPed-1].pedido);
+		qtdPed--;
+	}
+	printf("\nProduto excluido com sucesso\n\n");
+}
+
+/*void alterar_quantidade_produto_carrinho(ProdutoLista* produto_l, PedidoLista* pedido_l){
+	consultar_carrinho_compras(pedido_l, qtdPed);
+	char codProd[10];
+	int index = 0;
+	printf("Por favor, digite o codigo do produto desejado. ");
+	scanf("%s", codProd);
+	index = buscar_produto_codigo_pedido(pedido_l, codProd);
+	int prodResult = buscar_produto_codigo(produto_l, codProd, false);
+	if(index == ITEM_NAO_ENCONTRADO){
+		printf("\nItem nao encontrado!!!\n\n");
+		return;
+	}	
+	//VERIFICAR QUANTIDADE DISPONIVEL
+	int quantidadeNova = 0;
+	do{
+		printf("\nDigite a quantidade de produto desejada! ");
+		scanf("%d", &quantidadeNova);
+	}while(!consulta_disponibilidade(produto_l, prodResult, quantidadeNova));
 	
-	//Criar um if para conferir a quantidade.
-	printf("\nIMPLEMENTAR");
-}
+	//ACERTAR VALORES
+	totalGeral -= pedido_l[index].pedido->total;
+	pedido_l[index].pedido->quantidade = quantidadeNova;
+	pedido_l[index].pedido->total = pedido_l[index].pedido->quantidade * pedido_l[index].pedido->preco;
+	totalGeral += pedido_l[index].pedido->total;
+}*/
 
-void consultar_carrinho_compras(Pedido* pedido, int qtd){
-	//Exibir todos os produtos e o total de compras.
-	printf("\nIMPLEMENTAR");
-}
+/*void finalizar_pedido(PedidoLista* pedido_l){
+	printf(codigo, "%lld", rand_code());
+	finalizado = true;
+	int i = 0;
+	for (i = 0; i < qtdPed; i++){
+		pedido_l[i].pedido->produto->qtd_estoque -= pedido_l[i].pedido->quantidade;
+	}
+	printf("\nPedido finalizado com sucesso!\n");
+	consultar_carrinho_compras(pedido_l, qtdPed);
+}*/
 
-void excluir_produto_carrinho(){
-	printf("\nIMPLEMENTAR");
-}
-
-void alterar_quantidade_produto_carrinho(){
-	printf("\nIMPLEMENTAR");
-}
-
-void esvaziar_carrinho(Pedido* pedido){
-	printf("\nIMPLEMENTAR");
-}
-
-void finalizar_pedido(){
-	printf("\nIMPLEMENTAR");
-}
-
+/*PedidoLista* esvaziar_carrinho(PedidoLista* pedido_l){
+	int i = 0;
+	for(i = 0; i < qtdPed; i++){
+		free(pedido_l[i].pedido);
+	}
+	qtdPed = 0;
+	maxPed = REALLOCFACT;
+	totalGeral = 0;
+	pedido_l = (PedidoLista*) realloc(pedido_l, REALLOCFACT * sizeof(PedidoLista));
+	printf("\n\nCarrinho esvaziado com sucesso!\n\n");
+	return pedido_l;
+}*/
 
 int menu_pedido(){
 	int opcao;
@@ -84,38 +235,64 @@ int menu_pedido(){
 	return opcao;
 }
 
-void gerenciar_menu_pedido(Produto* produto, Pedido* pedido){
+PedidoLista* gerenciar_menu_pedido(ProdutoLista* produto_l, PedidoLista* pedido_l){
 	int opcao;
 	int sair = 0;
-	do{	
-		opcao = menu_pedido();		
+	do{
+		opcao = menu_pedido();
 		switch(opcao){
 			case 1:
 				printf("\nAdicionar produto no carrinho\n\n");
-				adicionar_produto_carrinho(produto, pedido);
+				if(finalizado){
+					printf("Pedido ja se encontra finalizado\n");
+				}
+				else{
+					pedido_l = adicionar_produto_carrinho(produto_l, pedido_l);
+				}				
 				break;
 			case 2:
-				printf("Consultar carrinho de compras");
-				consultar_carrinho_compras(pedido, qtdPed);
+				printf("\nConsultar carrinho de compras");
+				consultar_carrinho_compras(pedido_l, qtdPed);
 				break;								
 			case 3:
-				printf("Excluir produto do carrinho");
-				excluir_produto_carrinho();
+				printf("\nExcluir produto do carrinho");
+				if(finalizado){
+					printf("\n\nPedido ja se encontra finalizado\n");
+				}
+				else{
+					excluir_produto_carrinho(pedido_l);
+				}				
 				break;
 			case 4:
-				printf("Alterar quantidade do produto do carrinho");
-				alterar_quantidade_produto_carrinho();
+				printf("\nAlterar quantidade do produto do carrinho");
+				if(finalizado){
+					printf("\n\nPedido ja se encontra finalizado\n");
+				}
+				else{
+					alterar_quantidade_produto_carrinho(produto_l, pedido_l);
+				}				
 				break;
 			case 5:
-				printf("Esvaziar carrinho de compras");
-				esvaziar_carrinho(pedido);
-				break;								
+				printf("\nFinalizando Pedido...\n\n");
+				if(finalizado){
+					printf("Pedido ja se encontra finalizado\n");
+				}
+				else{
+					finalizar_pedido(pedido_l);
+				}
+				break;
 			case 6:
-				printf("Finalizar Pedido");
-				finalizar_pedido();
-				break;								
+				printf("\nEsvaziar carrinho de compras\n\n");
+				if(finalizado){
+					printf("Pedido ja se encontra finalizado\n");
+				}
+				else{
+					pedido_l = esvaziar_carrinho(pedido_l);
+				}				
+				break;
 			case 7:
-				exit(0);
+				sair = 1;
+				return pedido_l;
 				break;
 			default:
 				printf("Opcao Invalida!\n\n");

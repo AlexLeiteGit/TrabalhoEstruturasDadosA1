@@ -1,16 +1,2 @@
-Descricao: ABC
- Codigo: 10 Quantida em Estoque: 10  Valor em R$: 2.30
-Descricao: ABC
- Codigo: 10 Quantida em Estoque: 10  Valor em R$: 2.30
-Descricao: ABC
- Codigo: 100 Quantida em Estoque: 3  Valor em R$: 1.00
-Descricao: ABC
- Codigo: 100 Quantida em Estoque: 3  Valor em R$: 1.00
-Descricao: ABC
- Codigo: 100 Quantida em Estoque: 3  Valor em R$: 1.00
-Descricao: ABC
- Codigo: 100 Quantida em Estoque: 3  Valor em R$: 1.00
-Descricao: ABC
- Codigo: 100 Quantida em Estoque: 3  Valor em R$: 1.00
-Descricao: ABC
- Codigo: 100 Quantida em Estoque: 3  Valor em R$: 1.00
+Descricao: Assada Codigo: 100 Quantida em Estoque: 1  Valor em R$: 20.30
+Descricao: Assada Codigo: 100 Quantida em Estoque: 1  Valor em R$: 20.30

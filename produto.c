@@ -1,5 +1,6 @@
 #include "common.h"
 #include "produto.h"
+#include "pedido.h"
 
 int	ITEM_NAO_ENCONTRADO = -1;
 int	REALLOCFACT = 5;
@@ -28,15 +29,15 @@ Produto* incluir_produto(Produto* produto){
 		maxProd = maxProd + REALLOCFACT;
 	}
 	
-	printf(" Cadastrando produto: %d \n", qtdProd+1);
+	printf("Cadastrando produto: %d \n", qtdProd+1);
 	
 	printf("Digite o codigo do produto: ");
 	scanf("%d", &produto[qtdProd].codigo);
 	getchar();
 	
 	printf("Digite a descricao do produto: ");
-	scanf("%100s", &produto[qtdProd].descricao);
-	//fgets(produto[qtdProd].descricao, 100, stdin);
+	//scanf("%100s", &produto[qtdProd].descricao); <-- Dá bug! Espaçamento!
+	fgets(produto[qtdProd].descricao, 100, stdin);
 	getchar();
 	
 	printf("Digite a quantidade inicial do produto em estoque: ");
@@ -91,8 +92,10 @@ void alterar_produto(Produto* produto){
 				break;
 			case 2:
 				printf("Digite a nova descricao do produto: ");
-				scanf("%s", produto[index].descricao);
-				getchar();
+				//scanf("%s", produto[index].descricao); <-- Não contabiliza o espaço (Corta a frase)
+				//getchar (); <-- Não contabiliza o espaço (Corta a frase)
+				fflush (stdin);
+				fgets(produto[index].descricao, 100, stdin);
 				printf("\nAlterado com sucesso!\n");
 				break;
 			case 3:
@@ -298,12 +301,16 @@ Produto* gerenciar_menu_produto(Produto* produto){
 				adicionar_estoque_arquivo(produto, qtdProd);
 				break;								
 			case 8:
-				exit(0);
-				return produto;
+				//exit(0);
+				//return produto;
+				sair = 1;
 				break;
 			default:
 				printf("Opcao Invalida!!!\n");
 				sair = 0;
 		}	
-	}while(!sair);	
+	}while(!sair);
+	
+	if (sair == 1)
+		gerenciar_menu_principal(produto);
 }
