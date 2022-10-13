@@ -1,3 +1,6 @@
-Descricao: Banana Codigo: 1213 Quantida em Estoque: 9  Valor em R$: 5.50
-Descricao: Pera Codigo: 1415 Quantida em Estoque: 7  Valor em R$: 4.99
-Descricao: morango Codigo: 1617 Quantida em Estoque: 6  Valor em R$: 12.00
+Descricao: Morango Japones
+ Codigo: 1010 Quantida em Estoque: 10  Valor em R$: 99.99
+Descricao: Morango Japones
+ Codigo: 1010 Quantida em Estoque: 10  Valor em R$: 99.99
+Descricao: Banana Prata
+ Codigo: 2020 Quantida em Estoque: 9  Valor em R$: 8.99

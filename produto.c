@@ -1,5 +1,8 @@
 #include "produto.h"
 
+int ITEM_NAO_ENCONTRADO = -1;
+int REALLOCFACT = 5;
+
 int qtdProd = 0;
 int maxProd = 0;
 
@@ -29,7 +32,7 @@ Produto* incluir_produto(Produto* produto){
 	getchar();
 	
 	printf("Digite a descricao do produto: ");
-	scanf("%s", produto[qtdProd].descricao); 
+	fgets(produto[qtdProd].descricao, 100, stdin); 
 	getchar();
 	
 	printf("Digite a quantidade inicial do produto em estoque: ");
@@ -196,7 +199,7 @@ void excluir_produto(Produto* produto){
 	}	
 }
 
-void gravar_estoque(Produto* produto){
+void gravar_estoque_arquivo(Produto* produto, int qtdProd){
 	FILE *pont_arq;
 	
 	pont_arq = fopen("estoque.txt", "w");
@@ -207,8 +210,8 @@ void gravar_estoque(Produto* produto){
 	} else {
 		printf("Gravando o estoque da Loja!\n");
 		int i;                       
-  		for(i=0;i<num_produtos;i++){     
-    		fprintf(pont_arq, "Descricao: %s Codigo: %d Quantida em Estoque: %d  Valor em R$: %.2f\n", pp[i].descricao,pp[i].codigo,pp[i].qtd_estoque,pp[i].valor);
+  		for(i=0;i<qtdProd;i++){     
+    		fprintf(pont_arq, "Descricao: %s Codigo: %d Quantida em Estoque: %d  Valor em R$: %.2f\n", produto[i].descricao,produto[i].codigo,produto[i].qtd_estoque,produto[i].preco);
   		}
 	}
 	
@@ -217,17 +220,40 @@ void gravar_estoque(Produto* produto){
 	printf("Estoque Gravado com Sucesso!\n");	
 }
 
+void adicionar_estoque_arquivo(Produto* produto, int qtdProd){
+	FILE *pont_arq;
+	
+	pont_arq = fopen("estoque.txt", "a");
+	
+	if(pont_arq == NULL){
+		fprintf(pont_arq, "Erro na criação do arquivo!");
+
+	} else {
+		printf("Adicionando o estoque da Loja!\n");
+		int i;                       
+  		for(i=0;i<qtdProd;i++){     
+    		fprintf(pont_arq, "Descricao: %s Codigo: %d Quantida em Estoque: %d  Valor em R$: %.2f\n", produto[i].descricao,produto[i].codigo,produto[i].qtd_estoque,produto[i].preco);
+  		}
+	}
+	
+	fclose(pont_arq);
+	
+	printf("Estoque Adicionado com Sucesso!\n");	
+}
+
 int menu_produto(){
 	int opcao;
-	printf("#########################\n");
+	printf("-------------------------\n");
 	printf("    Gerenciar Produto    \n");
-	printf("#########################\n");
+	printf("-------------------------\n");
 	printf("\n(1) Incluir");
 	printf("\n(2) Alterar");
 	printf("\n(3) Listar");
 	printf("\n(4) Consultar");
 	printf("\n(5) Excluir");
-	printf("\n(6) Voltar");
+	printf("\n(6) Escrever em .txt");
+	printf("\n(7) Adicionar no .txt");
+	printf("\n(8) Voltar");
 	printf("\n\nSelecionar opcao: ");
 	scanf("%d", &opcao);
 	return opcao;
@@ -258,8 +284,16 @@ Produto* gerenciar_menu_produto(Produto* produto){
 			case 5:
 				printf("\nExcluir Produto\n\n");
 				excluir_produto(produto);
-				break;								
+				break;
 			case 6:
+				printf("\nEscrever em .txt\n\n");				
+				gravar_estoque_arquivo(produto, qtdProd);
+				break;
+			case 7:
+				printf("\nAdicionar no .txt\n\n");				
+				adicionar_estoque_arquivo(produto, qtdProd);
+				break;								
+			case 8:
 				exit(0);				
 				return produto;
 				break;

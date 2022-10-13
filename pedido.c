@@ -65,9 +65,9 @@ void esvaziar_carrinho(Pedido* pedido){
 
 int menu_pedido(){
 	int opcao;
-	printf("#########################\n");
+	printf("-------------------------\n");
 	printf("     Gerenciar Pedido    \n");
-	printf("#########################\n");
+	printf("-------------------------\n");
 	printf("\n(1) Adicionar produto no carrinho");
 	printf("\n(2) Consultar carrinho de compras");
 	printf("\n(3) Excluir produto do carrinho");
