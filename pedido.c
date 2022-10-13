@@ -1,7 +1,8 @@
+#include "common.h"
 #include "pedido.h"
 
-int qtdPed = 0;
-int maxPed = 0;
+int	qtdPed = 0;
+int	maxPed = 0;
 
 struct pedido{
 	int codigo;
@@ -10,8 +11,6 @@ struct pedido{
 	float preco;
 	int total;
 };
-
-
 
 void adicionar_produto_carrinho(Produto* produto, Pedido* pedido){
 	printf("Produtos Disponiveis\n\n");
@@ -117,11 +116,10 @@ void gerenciar_menu_pedido(Produto* produto, Pedido* pedido){
 				break;								
 			case 7:
 				exit(0);
-				//menu_principal();
 				break;
 			default:
 				printf("Opcao Invalida!\n\n");
-				exit(0);			
+				sair = 0;
 		}
 	}while(!sair);
 }

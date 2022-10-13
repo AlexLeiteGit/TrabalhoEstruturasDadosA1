@@ -1,10 +1,11 @@
+#include "common.h"
 #include "produto.h"
 
-int ITEM_NAO_ENCONTRADO = -1;
-int REALLOCFACT = 5;
+int	ITEM_NAO_ENCONTRADO = -1;
+int	REALLOCFACT = 5;
 
-int qtdProd = 0;
-int maxProd = 0;
+int	qtdProd = 0;
+int	maxProd = 0;
 
 struct produto{
 	int codigo;
@@ -26,13 +27,16 @@ Produto* incluir_produto(Produto* produto){
 	    }
 		maxProd = maxProd + REALLOCFACT;
 	}
-	printf("Cadastrando produto: %d\n", qtdProd+1);
+	
+	printf(" Cadastrando produto: %d \n", qtdProd+1);
+	
 	printf("Digite o codigo do produto: ");
 	scanf("%d", &produto[qtdProd].codigo);
 	getchar();
 	
 	printf("Digite a descricao do produto: ");
-	fgets(produto[qtdProd].descricao, 100, stdin);
+	scanf("%100s", &produto[qtdProd].descricao);
+	//fgets(produto[qtdProd].descricao, 100, stdin);
 	getchar();
 	
 	printf("Digite a quantidade inicial do produto em estoque: ");
@@ -293,8 +297,7 @@ Produto* gerenciar_menu_produto(Produto* produto){
 				printf("\nAdicionar no .txt\n\n");				
 				adicionar_estoque_arquivo(produto, qtdProd);
 				break;								
-			case 8:				
-				//menu_principal();
+			case 8:
 				exit(0);
 				return produto;
 				break;

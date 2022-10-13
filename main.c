@@ -1,3 +1,4 @@
+#include "common.h"
 #include "produto.h"
 #include "pedido.h"
 
@@ -32,9 +33,9 @@ void gerenciar_menu_principal(Produto* produto, Pedido* pedido){
 				break;
 			default:
 				printf("Opcao Invalida!!!\n");
-				exit(0);
+				opcao = 0;
 		}
-	}while(!sair);
+	}while(!opcao);
 }
 
 //CODIGO
@@ -42,7 +43,7 @@ int main(int argc, char** argv){
 	
 	Produto* produtos = NULL;
 	Pedido* pedidos = NULL;
-		
+	
 	gerenciar_menu_principal(produtos, pedidos);
 	return 0;
 }
