@@ -1,6 +1,4 @@
-Descricao: Morango Japones
- Codigo: 1010 Quantida em Estoque: 10  Valor em R$: 99.99
-Descricao: Morango Japones
- Codigo: 1010 Quantida em Estoque: 10  Valor em R$: 99.99
-Descricao: Banana Prata
- Codigo: 2020 Quantida em Estoque: 9  Valor em R$: 8.99
+Descricao: a Codigo: 333 Quantida em Estoque: 2  Valor em R$: 3.20
+Descricao: a Codigo: 333 Quantida em Estoque: 2  Valor em R$: 3.20
+Descricao: a Codigo: 333 Quantida em Estoque: 2  Valor em R$: 3.20
+Descricao: a Codigo: 333 Quantida em Estoque: 2  Valor em R$: 3.20

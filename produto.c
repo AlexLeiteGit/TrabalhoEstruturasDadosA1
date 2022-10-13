@@ -32,7 +32,7 @@ Produto* incluir_produto(Produto* produto){
 	getchar();
 	
 	printf("Digite a descricao do produto: ");
-	fgets(produto[qtdProd].descricao, 100, stdin); 
+	fgets(produto[qtdProd].descricao, 100, stdin);
 	getchar();
 	
 	printf("Digite a quantidade inicial do produto em estoque: ");
@@ -293,8 +293,9 @@ Produto* gerenciar_menu_produto(Produto* produto){
 				printf("\nAdicionar no .txt\n\n");				
 				adicionar_estoque_arquivo(produto, qtdProd);
 				break;								
-			case 8:
-				exit(0);				
+			case 8:				
+				//menu_principal();
+				exit(0);
 				return produto;
 				break;
 			default:

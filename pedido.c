@@ -11,6 +11,8 @@ struct pedido{
 	int total;
 };
 
+
+
 void adicionar_produto_carrinho(Produto* produto, Pedido* pedido){
 	printf("Produtos Disponiveis\n\n");
 	listar_produtos(produto, qtdProd, false);
@@ -40,10 +42,12 @@ void adicionar_produto_carrinho(Produto* produto, Pedido* pedido){
 	scanf("%d", pedido[qtdPed].quantidade);
 	pedido[qtdPed].total = pedido[qtdPed].quantidade * pedido[qtdPed].preco;
 	
+	//Criar um if para conferir a quantidade.
 	printf("\nIMPLEMENTAR");
 }
 
 void consultar_carrinho_compras(Pedido* pedido, int qtd){
+	//Exibir todos os produtos e o total de compras.
 	printf("\nIMPLEMENTAR");
 }
 
@@ -55,13 +59,14 @@ void alterar_quantidade_produto_carrinho(){
 	printf("\nIMPLEMENTAR");
 }
 
+void esvaziar_carrinho(Pedido* pedido){
+	printf("\nIMPLEMENTAR");
+}
+
 void finalizar_pedido(){
 	printf("\nIMPLEMENTAR");
 }
 
-void esvaziar_carrinho(Pedido* pedido){
-	printf("\nIMPLEMENTAR");
-}
 
 int menu_pedido(){
 	int opcao;
@@ -72,8 +77,8 @@ int menu_pedido(){
 	printf("\n(2) Consultar carrinho de compras");
 	printf("\n(3) Excluir produto do carrinho");
 	printf("\n(4) Alterar quantidade do produto do carrinho");	
-	printf("\n(5) Finalizar Pedido");	
-	printf("\n(6) Esvaziar carrinho de compras");
+	printf("\n(5) Esvaziar carrinho de compras");
+	printf("\n(6) Finalizar Pedido");	
 	printf("\n(7) Voltar");
 	printf("\n\nSelecionar opcao: ");
 	scanf("%d", &opcao);
@@ -103,15 +108,16 @@ void gerenciar_menu_pedido(Produto* produto, Pedido* pedido){
 				alterar_quantidade_produto_carrinho();
 				break;
 			case 5:
-				printf("Finalizar Pedido");
-				finalizar_pedido();
-				break;								
-			case 6:
 				printf("Esvaziar carrinho de compras");
 				esvaziar_carrinho(pedido);
 				break;								
+			case 6:
+				printf("Finalizar Pedido");
+				finalizar_pedido();
+				break;								
 			case 7:
 				exit(0);
+				//menu_principal();
 				break;
 			default:
 				printf("Opcao Invalida!\n\n");
